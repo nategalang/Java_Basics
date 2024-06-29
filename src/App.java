@@ -6,12 +6,39 @@ public class App {
         
         while(true) {
             boolean option = customer.order();
-            if(option) {
-                double price = customer.purchase();
-                customer.checkout(price);
-                customer.reset();
+
+            if (option) {
+                int task = customer.select();
+
+                while (task != 0) {
+                    if (task == 1) {
+                        customer.add();
+                        task = customer.select();
+                    }
+
+                    else if (task == 2) {
+                        customer.update();
+                        task = customer.select();
+                    }
+
+                    else if (task == 3) {
+                        customer.view();
+                        task = customer.select();
+                    }
+
+                    else {
+                        boolean finish = customer.checkout();
+                        if (finish) {
+                            customer.reset();
+                            task = 0;
+                        }
+                        else 
+                            task = customer.select();
+                    }
+                }
             }
-            else{
+
+            else {
                 customer.close();
                 break;
             }
